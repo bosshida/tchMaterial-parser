@@ -139,7 +139,12 @@ def parse(url: str) -> tuple[str, str, str] | tuple[str, str, str, list] | tuple
         if content_type == "assets_document" and "audio_info" in locals() and audio_info:
             return resource_url, content_id, data["title"], audio_info
         else:
-            return resource_url, content_id, data["title"]
+            version_str = "" #增加版本信息
+            for tag in data['tag_list']:
+                if "版" in tag["tag_name"]:
+                    version_str = tag["tag_name"]
+                    break
+            return resource_url, content_id, data["title"]+version_str
     except:
         return None, None, None # 如果解析失败，返回 None
 
